@@ -20,3 +20,22 @@ On commence d'abord par ouvrir l'APK dans JADX.
 
 <img width="1323" height="754" alt="jadx gui" src="https://github.com/user-attachments/assets/abcb3b7e-c68f-4a8e-8e24-b8b4ab907367" />
 
+Depuis le fichier AndroidManifest.xml, on determine le fichier java principal, dans notre cas c'est MainActivity.java depuis  cette ligne: 
+
+android:name="sg.vantagepoint.uncrackable1.MainActivity">
+
+Dans MainActivity on apercoit la fonction verify :
+
+<img width="1153" height="550" alt="2" src="https://github.com/user-attachments/assets/042cf15b-0c61-490a-b748-5e155c8ad325" />
+
+qui nous mene vers a.java
+
+<img width="1558" height="763" alt="3" src="https://github.com/user-attachments/assets/2d7dc2c6-d4b3-403f-93e2-062d750aa301" />
+
+On voit bien que la cle et le strng sont hard coded :
+
+Ainsi, on va dans CyberChef, et on decode la chaine avec la cle fournie : 
+
+![Uploading cyber.jpeg…]()
+
+
