@@ -69,7 +69,7 @@ Les principales préoccupations concernent :
 - l’exposition d’un secret sensible directement dans le code  
 - une implémentation cryptographique faible avec clé hardcodée  
 
-👉 Le niveau de risque global est évalué comme **ÉLEVÉ **
+ Le niveau de risque global est évalué comme **ÉLEVÉ **
 
 ---
 
