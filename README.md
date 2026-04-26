@@ -36,10 +36,113 @@ On voit bien que la cle et le strng sont hard coded :
 
 Ainsi, on va dans CyberChef, et on decode la chaine avec la cle fournie : 
 
-![Uploading cyber.jpeg…]()
+<img width="1600" height="785" alt="cyber" src="https://github.com/user-attachments/assets/4ad55f45-a4de-4eba-abee-9e16bce35752" />
+
 
 En tapant I want to beleive dans l'application, on aura le message de succes! 
 
-![Uploading result.jpeg…]()
+<img width="357" height="668" alt="result" src="https://github.com/user-attachments/assets/c78e4ea1-2aa3-4f1d-8a32-bfc727c63de8" />
 
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#  Rapport d'analyse statique - UnCrackable-Level1
+
+---
+
+##  Informations générales
+
+- **Date d'analyse :** 26/04/2026  
+- **Analyste :** Aya  
+- **APK analysé :** UnCrackable-Level1.apk  
+- **Version :** Non spécifiée  
+- **Provenance :** OWASP Crackme Challenge  
+- **Outils utilisés :** JADX GUI
+
+---
+
+##  Résumé exécutif
+
+Cette analyse statique a révélé **2 vulnérabilités majeures** dans l'application UnCrackable-Level1.  
+Les principales préoccupations concernent :
+
+- l’exposition d’un secret sensible directement dans le code  
+- une implémentation cryptographique faible avec clé hardcodée  
+
+👉 Le niveau de risque global est évalué comme **ÉLEVÉ **
+
+---
+
+###  Actions prioritaires recommandées
+
+1. Supprimer toute donnée sensible hardcodée dans le code source  
+2. Implémenter une gestion sécurisée des clés (Keystore Android)  
+3. Renforcer la logique de vérification côté serveur  
+
+---
+
+##  Constats détaillés
+
+---
+
+###  Constat #1 : Secret hardcodé dans le code
+
+**Sévérité :** Élevée  
+
+**Description :**  
+L’analyse du fichier `a.java` montre que l’application contient une chaîne encodée en dur (hardcoded) ainsi qu’une clé utilisée pour la déchiffrer. Le résultat est directement comparé à l’entrée utilisateur pour valider l’accès.
+
+**Localisation :**
+- Classe : `sg.vantagepoint.uncrackable1.a`  
+- Méthode : `a(String str)`  
+
+**Preuve technique :**
+- Chaîne encodée en Base64  
+- Clé hexadécimale présente dans le code  
+- Comparaison directe via `str.equals(...)`  
+
+**Impact potentiel :**
+- Extraction facile du secret via reverse engineering  
+- Contournement total de la sécurité  
+- Aucune protection contre l’analyse statique  
+
+**Remédiation recommandée :**
+- Ne jamais stocker de secrets dans le code  
+- Externaliser la logique de validation côté serveur  
+- Utiliser de l’obfuscation avancée  
+
+---
+
+###  Constat #2 : Mauvaise gestion cryptographique (clé exposée)
+
+**Sévérité :** Élevée  
+
+**Description :**  
+La clé utilisée pour le déchiffrement AES est visible directement dans le code sous forme de chaîne hexadécimale, rendant la protection inefficace.
+
+**Localisation :**
+- Classe : `sg.vantagepoint.uncrackable1.a`  
+- Méthode : `b(String str)` + appel dans `a()`  
+
+**Impact potentiel :**
+- Déchiffrement trivial du secret  
+- Bypass complet de la logique de sécurité  
+- Facilite les attaques automatisées  
+
+**Remédiation recommandée :**
+- Utiliser Android Keystore pour stocker les clés  
+- Générer les clés dynamiquement  
+- Éviter toute exposition côté client  
+
+---
+
+##  Conclusion
+
+Cette application repose principalement sur une **sécurité côté client faible**, facilement contournable via du reverse engineering.
+
+ Ce challenge démontre :
+- les risques du hardcoding  
+- les mauvaises pratiques cryptographiques  
+- l’importance de la sécurité côté serveur  
+
+---
